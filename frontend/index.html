@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Real-Time Stock Ticker</title>
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  <script src="app.js" defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    .stock {
+      margin: 10px 0;
+      padding: 10px;
+      background: #e0f7fa;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📈 Live Stock Prices</h1>
+  <div id="stocks"></div>
+</body>
+</html>
