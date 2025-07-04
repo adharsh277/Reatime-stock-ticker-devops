@@ -1,95 +1,82 @@
-# 📈 Real-Time Stock Ticker – DevOps Project 🚀
+# 📈 Real‑Time Stock Ticker — Cloud‑Native Deployment with Docker, Kafka, GitHub Actions & Render
 
-A fully containerized real-time stock ticker application built using **Kafka**, **Flask**, **WebSocket**, and **Nginx**. This project demonstrates modern **DevOps practices** using **Docker**, **GitHub Actions CI/CD**, and **Render** for deployment.
-
----
-
-## 🧱 Tech Stack & Tools
-
-| Category       | Tools / Services |
-|----------------|------------------|
-| Backend        | [Python](https://www.python.org/), [Flask](https://flask.palletsprojects.com/), [flask-socketio](https://flask-socketio.readthedocs.io/), [kafka-python](https://kafka-python.readthedocs.io/en/master/) |
-| Frontend       | [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5), [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Nginx](https://www.nginx.com/) |
-| Streaming      | [Apache Kafka](https://kafka.apache.org/), [Zookeeper](https://zookeeper.apache.org/) |
-| Containerization | [Docker](https://www.docker.com/), [Docker Compose](https://docs.docker.com/compose/) |
-| CI/CD Pipeline | [GitHub Actions](https://github.com/features/actions) |
-| Hosting        | [Render](https://render.com/) |
-| Registry       | [Docker Hub](https://hub.docker.com/) |
+[![Docker Hub](https://img.shields.io/badge/Docker-Hub-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/u/aadhi160)
+[![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/adharsh277/Reatime-stock-ticker-devops/actions)
+[![Apache Kafka](https://img.shields.io/badge/Apache-Kafka-231F20?logo=apachekafka&logoColor=white)](https://kafka.apache.org/)
+[![Render](https://img.shields.io/badge/Render-Cloud-blue?logo=render&logoColor=white)](https://render.com/)
 
 ---
 
-## ⚙️ Project Structure
-
-real-time-stock-ticker-devops/
-│
-├── backend/ # Flask Kafka producer + WebSocket server
-│ ├── app.py
-│ ├── requirements.txt
-│ └── Dockerfile
-│
-├── frontend/ # Static HTML + JS frontend (Nginx)
-│ ├── index.html
-│ ├── app.js
-│ └── Dockerfile
-│
-├── kafka-docker/ # Kafka + Zookeeper docker-compose setup
-│ └── docker-compose.yml
-│
-├── .github/workflows/ # CI/CD GitHub Actions
-│ └── docker-ci-cd.yml
-│
-├── docker-compose.yml # Local dev orchestration
-└── README.md # You are here!
-
-markdown
-Copy
-Edit
+## 📌 Project Overview
+This project streams **simulated stock prices** every two seconds, publishes them to **Apache Kafka**, and broadcasts real‑time updates to a WebSocket‑enabled frontend.  
+Everything is **containerized with Docker**, built & pushed via **GitHub Actions CI/CD**, and hosted server‑lessly on **Render**.
 
 ---
 
-## 🚀 Live Deployments
+## 🔧 Tech Stack
+
+| Layer        | Tools & Links |
+|--------------|---------------|
+| **Backend**  | [Python 3.9](https://www.python.org/) · [Flask](https://flask.palletsprojects.com/) · [Flask‑SocketIO](https://flask-socketio.readthedocs.io/) |
+| **Streaming**| [Apache Kafka](https://kafka.apache.org/) · [Zookeeper](https://zookeeper.apache.org/) |
+| **Frontend** | Vanilla **HTML / JavaScript** served by [Nginx](https://www.nginx.com/) |
+| **DevOps**   | [Docker](https://www.docker.com/) · [Docker Compose](https://docs.docker.com/compose/) · [GitHub Actions](https://github.com/features/actions) |
+| **Hosting**  | [Render Web Services](https://render.com/) |
+| **Registry** | [Docker Hub (aadhi160)](https://hub.docker.com/u/aadhi160) |
+
+---
+
+## 🚀 Live Demo
 
 | Service   | URL |
 |-----------|-----|
-| **Frontend** | [https://your-frontend.onrender.com](https://your-frontend.onrender.com) |
-| **Backend**  | [https://your-backend.onrender.com](https://your-backend.onrender.com) |
-| **Docker Hub (Backend)** | [aadhi160/backend](https://hub.docker.com/r/aadhi160/backend) |
-| **Docker Hub (Frontend)** | [aadhi160/frontend](https://hub.docker.com/r/aadhi160/frontend) |
+| **Frontend** | `https://stock‑ticker‑frontend.onrender.com` |
+| **Backend (WebSocket)** | `https://stock‑ticker‑backend.onrender.com` |
+
+*(Replace with your actual Render URLs)*
 
 ---
 
-## 🔄 CI/CD Pipeline (GitHub Actions)
+## 🖼️ Architecture
 
-Every push to `main` triggers:
+```mermaid
+graph TD
+  A[Flask<br/>Stock Generator] --&nbsp;Kafka&nbsp;Producer&nbsp;--> B((Kafka))
+  B -->|topic: stock‑price| C[Flask&nbsp;+&nbsp;SocketIO]
+  C -->|WebSocket<br/>stock_update| D[HTML + JS Client<br/>(Nginx)]
+🔄 CI/CD Pipeline
+Stage	Description
+CI  (build)	GitHub Actions builds Docker images for backend & frontend on every push to main.
+CD  (push)	Images are tagged aadhi160/backend:latest & aadhi160/frontend:latest and pushed to Docker Hub.
+Deploy	Render pulls the latest images automatically (or via Deploy Hooks) and restarts the services.
 
-1. **Build** Docker images (`frontend`, `backend`)
-2. **Push** to [Docker Hub](https://hub.docker.com/)
-3. **Deploy** via [Render](https://render.com/)
+Workflow file: .github/workflows/docker-ci-cd.yml
 
-```yaml
-on:
-  push:
-    branches:
-      - main
-📡 How It Works
-Flask app generates fake stock prices every 2 seconds
-
-Publishes them to a Kafka topic: stock-price
-
-Sends real-time updates to WebSocket-connected clients
-
-Frontend (HTML/JS + Nginx) connects and displays updates
-
-🛠 Local Development
-To run locally with Docker:
-
+🛠️ Local Setup
 bash
 Copy
 Edit
+# 1  Clone repository
+git clone https://github.com/adharsh277/Reatime-stock-ticker-devops.git
+cd Reatime-stock-ticker-devops
+
+# 2  Spin up everything
 docker compose up --build
-Access:
 
-Backend: http://localhost:5000
+# 3  Open
+#    Frontend → http://localhost:8080
+#    Backend  → http://localhost:5000
+✨ Key Features
+Real‑Time Streaming – stock ticks every 2 s via WebSocket
 
-Frontend: http://localhost:8080
+Kafka‑Backed – scalable publish/subscribe pipeline
+
+Fully Containerized – one‑command spin‑up with Docker Compose
+
+Zero‑Touch CI/CD – automated builds & pushes via GitHub Actions
+
+Cloud Hosting – one‑click deploy on Render (free tier)
+
+🤝 Contributing
+PRs are welcome! Fork the repo, create a branch (git checkout -b feat/my-change), commit and push, then open a Pull Request.
 
