@@ -7,66 +7,117 @@
 
 ---
 
-## 📌 Project Overview
-This project streams **simulated stock prices** every two seconds, publishes them to **Apache Kafka**, and broadcasts real‑time updates to a WebSocket‑enabled frontend.  
-Everything is **containerized with Docker**, built & pushed via **GitHub Actions CI/CD**, and hosted server‑lessly on **Render**.
+## 🚀 Project Overview
+
+This project demonstrates the end-to-end DevOps pipeline by building a real-time stock ticker with:
+
+- **Live stock data simulation**
+- **Message streaming using Kafka**
+- **WebSocket-based updates to frontend**
+- **CI/CD with GitHub Actions**
+- **Containerization with Docker**
+- **Hosting on Render (Docker-based)**
 
 ---
 
-## 🔧 Tech Stack
+## 🧱 Architecture
 
-| Layer        | Tools & Links |
-|--------------|---------------|
-| **Backend**  | [Python 3.9](https://www.python.org/) · [Flask](https://flask.palletsprojects.com/) · [Flask‑SocketIO](https://flask-socketio.readthedocs.io/) |
-| **Streaming**| [Apache Kafka](https://kafka.apache.org/) · [Zookeeper](https://zookeeper.apache.org/) |
-| **Frontend** | Vanilla **HTML / JavaScript** served by [Nginx](https://www.nginx.com/) |
-| **DevOps**   | [Docker](https://www.docker.com/) · [Docker Compose](https://docs.docker.com/compose/) · [GitHub Actions](https://github.com/features/actions) |
-| **Hosting**  | [Render Web Services](https://render.com/) |
-| **Registry** | [Docker Hub (aadhi160)](https://hub.docker.com/u/aadhi160) |
+```plaintext
+[ Stock Price Generator ] 
+         │
+         ▼
+      [ Kafka ] ───► [ Flask Backend ]
+                         │
+                         ▼
+                 [ WebSocket API ]
+                         │
+                         ▼
+                 [ HTML/JS Frontend ]
+🛠️ Tech Stack
+Component	Technology Used
+Backend	Python (Flask + Socket.IO)
+Frontend	HTML + JavaScript
+Messaging	Apache Kafka
+Container	Docker, Docker Compose
+CI/CD	GitHub Actions
+Deployment	Render (Docker Web Services)
 
----
-
-## 🚀 Live Demo
-
-| Service   | URL |
-|-----------|-----|
-| **Frontend** | `https://stock‑ticker‑frontend.onrender.com` |
-| **Backend (WebSocket)** | `https://stock‑ticker‑backend.onrender.com` |
-
-*(Replace with your actual Render URLs)*
-
----
-
-##🔄 CI/CD Pipeline
-Stage	Description
-CI  (build)	GitHub Actions builds Docker images for backend & frontend on every push to main.
-CD  (push)	Images are tagged aadhi160/backend:latest & aadhi160/frontend:latest and pushed to Docker Hub.
-Deploy	Render pulls the latest images automatically (or via Deploy Hooks) and restarts the services.
-
-Workflow file: .github/workflows/docker-ci-cd.yml
-
-🛠️ Local Setup
+📂 Folder Structure
+graphql
+Copy
+Edit
+real-time-stock-ticker-devops/
+├── backend/               # Flask app with Kafka producer & WebSocket
+├── frontend/              # HTML + JS client consuming WebSocket data
+├── kafka-docker/          # Kafka & Zookeeper setup via Docker Compose
+├── k8s/                   # (Optional) K8s manifests for AKS deployment
+├── .github/workflows/     # GitHub Actions CI/CD pipelines
+└── docker-compose.yml     # Local dev environment
+📦 Local Development Setup
+1️⃣ Clone the repository
 bash
 Copy
 Edit
-# 1  Clone repository
-git clone https://github.com/adharsh277/Reatime-stock-ticker-devops.git
-cd Reatime-stock-ticker-devops
-
-# 2  Spin up everything
+git clone https://github.com/<your-username>/real-time-stock-ticker-devops.git
+cd real-time-stock-ticker-devops
+2️⃣ Start Kafka, Backend & Frontend
+bash
+Copy
+Edit
 docker compose up --build
+3️⃣ Access the App
+Frontend → http://localhost:8080
 
-# 3  Open
-#    Frontend → http://localhost:8080
-#    Backend  → http://localhost:5000
-✨ Key Features
-Real‑Time Streaming – stock ticks every 2 s via WebSocket
+Backend API → http://localhost:5000
 
-Kafka‑Backed – scalable publish/subscribe pipeline
+Kafka Broker → localhost:9092
 
-Fully Containerized – one‑command spin‑up with Docker Compose
+🖥️ WebSocket Example (Frontend index.html)
+js
+Copy
+Edit
+const socket = io("http://localhost:5000");
 
-Zero‑Touch CI/CD – automated builds & pushes via GitHub Actions
+socket.on("stock_update", (data) => {
+  console.log(`${data.symbol} → $${data.price}`);
+});
+⚙️ CI/CD Pipeline (GitHub Actions)
+✅ Auto builds & pushes Docker images for backend and frontend
+✅ Deploys to Render via Docker image URLs
+
+🔐 Required GitHub Secrets
+Secret Name	Description
+DOCKERHUB_USERNAME	Docker Hub username
+DOCKERHUB_TOKEN	Docker Hub access token
+RENDER_API_KEY	API key from Render dashboard
+RENDER_BACKEND_SERVICE_ID	Backend service ID on Render
+RENDER_FRONTEND_SERVICE_ID	Frontend service ID on Render
+
+🧪 Example Kafka Topic Creation (for testing)
+bash
+Copy
+Edit
+docker exec kafka kafka-topics \
+  --create --topic stock-price \
+  --bootstrap-server localhost:9092 \
+  --partitions 1 --replication-factor 1
+🌐 Live Demo (Once Deployed)
+Frontend URL: https://your-frontend-service.onrender.com
+
+Backend Health Check: https://your-backend-service.onrender.com
+
+📊 Optional Enhancements
+📈 Monitoring: Integrate Prometheus + Grafana
+
+📜 Logging: Add Loki or Papertrail for centralized logs
+
+☁️ Switch to AKS: Use AKS and kubectl if cloud-native K8s preferred
+
+🔒 Security: Add JWT auth for WebSocket and API calls
+
+🙌 Credits
+Built by Adharsh U using open-source tools and cloud-native DevOps practices.
+Special thanks to Kafka, Flask, Docker, GitHub, and Render.
 
 Cloud Hosting – one‑click deploy on Render (free tier)
 
