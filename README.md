@@ -37,14 +37,7 @@ Everything is **containerized with Docker**, built & pushed via **GitHub Actions
 
 ---
 
-## 🖼️ Architecture
-
-```mermaid
-graph TD
-  A[Flask<br/>Stock Generator] --&nbsp;Kafka&nbsp;Producer&nbsp;--> B((Kafka))
-  B -->|topic: stock‑price| C[Flask&nbsp;+&nbsp;SocketIO]
-  C -->|WebSocket<br/>stock_update| D[HTML + JS Client<br/>(Nginx)]
-🔄 CI/CD Pipeline
+##🔄 CI/CD Pipeline
 Stage	Description
 CI  (build)	GitHub Actions builds Docker images for backend & frontend on every push to main.
 CD  (push)	Images are tagged aadhi160/backend:latest & aadhi160/frontend:latest and pushed to Docker Hub.
